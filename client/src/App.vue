@@ -1,7 +1,35 @@
 <template>
-  <v-app>
+  <v-app style="background: #E3E3E3">
+    <!--    Side Navbar-->
+    <v-navigation-drawer app temporary fixed v-model="sideNav">
+      <v-toolbar color="accent" light flat>
+        <v-app-bar-nav-icon @click="toggleSideNav"></v-app-bar-nav-icon>
+        <router-link to="/" tag="span" style="cursor: pointer">
+          <h1 class="title pl-3">VueShare</h1>
+        </router-link>
+      </v-toolbar>
+      <v-divider></v-divider>
+      <!--      Side Navbar Links-->
+      <v-list style="cursor:pointer">
+        <v-list-item
+          ripple
+          v-for="item in sideNavItems"
+          :key="item.title"
+          :to="item.link"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <!--    Horizontal Navbar-->
     <v-app-bar qpp fixed color="primary" light>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="toggleSideNav"></v-app-bar-nav-icon>
 
       <v-toolbar-title class="hidden-xs-only">
         <router-link to="/" tag="span" style="cursor: pointer"
@@ -50,6 +78,11 @@
 <script>
 export default {
   name: "App",
+  data() {
+    return {
+      sideNav: false
+    };
+  },
   computed: {
     horizontalNavItems() {
       return [
@@ -57,13 +90,19 @@ export default {
         { icon: "mdi-lock-open", title: "Sign In", link: "/signin" },
         { icon: "mdi-pencil", title: "Sign Up", link: "/signup" }
       ];
+    },
+    sideNavItems() {
+      return [
+        { icon: "mdi-message-text", title: "Posts", link: "/posts" },
+        { icon: "mdi-lock-open", title: "Sign In", link: "/signin" },
+        { icon: "mdi-pencil", title: "Sign Up", link: "/signup" }
+      ];
     }
   },
-
-  components: {},
-
-  data: () => ({
-    //
-  })
+  methods: {
+    toggleSideNav() {
+      this.sideNav = !this.sideNav;
+    }
+  }
 };
 </script>
