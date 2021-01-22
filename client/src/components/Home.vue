@@ -1,7 +1,8 @@
 <template>
   <v-container>
     <h1>Home</h1>
-    <ul v-for="post in getPosts" :key="post._id">
+    <div v-if="$apollo.loading">Loading...</div>
+    <ul v-else v-for="post in getPosts" :key="post._id">
       <li>{{ post.title }} {{ post.imageUrl }} {{ post.description }}</li>
       <li>Likes {{ post.likes }}</li>
     </ul>
@@ -13,6 +14,11 @@ import { gql } from "apollo-boost";
 
 export default {
   name: "home",
+  data() {
+    return {
+      posts: []
+    };
+  },
   apollo: {
     getPosts: {
       query: gql`
@@ -25,7 +31,14 @@ export default {
             likes
           }
         }
-      `
+      `,
+      result(args) {
+        console.dir(args);
+      },
+      error(err) {
+        console.error("[EROR!!]", err);
+        console.dir(err);
+      }
     }
   }
 };
