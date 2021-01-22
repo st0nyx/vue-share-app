@@ -37,5 +37,8 @@ export default new Vuex.Store({
           console.error(err);
         });
     }
+  },
+  getters: {
+    posts: state => state.posts
   }
 });
