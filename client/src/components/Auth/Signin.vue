@@ -1,51 +1,34 @@
 <template>
-  <v-container text-xs-center mt-5 pt-5>
-    <!-- Signin Title -->
-    <v-layout row wrap>
-      <v-flex xs12 sm6 offset-sm3>
-        <h1>Welcome Back!</h1>
-      </v-flex>
-    </v-layout>
-
-    <!-- Signin Form -->
-    <v-form @submit.prevent="handleSigninUser">
-      <v-container>
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-text-field
-              prepend-icon="mdi-account"
-              v-model="username"
-              :counter="10"
-              label="Username"
-              required
-            ></v-text-field>
-          </v-col>
-
-          <!--          <v-col cols="12" md="4">-->
-          <!--            <v-text-field-->
-          <!--              v-model="lastname"-->
-          <!--              :rules="nameRules"-->
-          <!--              :counter="10"-->
-          <!--              label="Last name"-->
-          <!--              required-->
-          <!--            ></v-text-field>-->
-          <!--          </v-col>-->
-
-          <v-col cols="12" md="6">
-            <v-text-field
-              prepend-icon="mdi-lock-open"
-              type="password"
-              v-model="password"
-              counter="12"
-              label="Password"
-              required
-            ></v-text-field>
-          </v-col>
-        </v-row>
-        <v-btn color="accent" type="submit">Sign In</v-btn>
-      </v-container>
-    </v-form>
-  </v-container>
+  <v-card color="#e5e5e5" width="500" class="mx-auto">
+    <v-card-title>
+      <h1 class="display-1">Sign In</h1>
+    </v-card-title>
+    <v-card-text>
+      <v-form>
+        <v-text-field
+          label="Username"
+          v-model="username"
+          counter="20"
+          prepend-icon="mdi-account-circle"
+        />
+        <v-text-field
+          :type="showPassword ? 'text' : 'password'"
+          label="Password"
+          v-model="password"
+          counter
+          prepend-icon="mdi-lock"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          @click:append="showPassword = !showPassword"
+        />
+      </v-form>
+    </v-card-text>
+    <v-divider></v-divider>
+    <v-card-actions>
+      <v-btn @click="handleSigninUser" color="success">Sign In</v-btn>
+      <!--      <v-spacer></v-spacer>-->
+      <!--      <v-btn color="info">Login</v-btn>-->
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
@@ -54,7 +37,8 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      showPassword: false
     };
   },
   methods: {
