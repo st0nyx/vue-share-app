@@ -28,7 +28,7 @@
     </v-navigation-drawer>
 
     <!--    Horizontal Navbar-->
-    <v-app-bar qpp fixed color="primary" light>
+    <v-app-bar qpp fixed color="primary" dark>
       <v-app-bar-nav-icon @click="toggleSideNav"></v-app-bar-nav-icon>
 
       <v-toolbar-title class="hidden-xs-only">
@@ -43,7 +43,7 @@
         flex
         prepend-icon="mdi-magnify"
         placeholder="Search Posts"
-        color="secondary"
+        color="accent"
         single-line
         hide-details
       ></v-text-field>

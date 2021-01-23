@@ -54,6 +54,7 @@ export default {
 <style>
 #carousel__title {
   position: absolute;
+  text-align: center;
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   border-radius: 5px 5px 0 0;
