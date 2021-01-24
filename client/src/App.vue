@@ -24,6 +24,15 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item v-if="user">
+          <v-list-item-icon>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Signout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -61,6 +70,21 @@
           <v-icon class="hidden-sm-only" left>{{ item.icon }}</v-icon>
           {{ item.title }}
         </v-btn>
+
+        <!--        Profile Button-->
+        <v-btn text to="/profile" v-if="user">
+          <v-icon class="hidden-sm-only" left>mdi-account</v-icon>
+          <v-badge right color="blue darken-2">
+            <span slot="badge">1</span>
+            Profile
+          </v-badge>
+        </v-btn>
+
+        <!--        Signout Button-->
+        <v-btn text v-if="user">
+          <v-icon class="hidden-sm-only" left>mdi-logout</v-icon>
+          Signout
+        </v-btn>
       </v-toolbar-items>
 
       <v-btn icon>
@@ -78,6 +102,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "App",
   data() {
@@ -86,19 +112,32 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["user"]),
     horizontalNavItems() {
-      return [
+      let items = [
         { icon: "mdi-message-text", title: "Posts", link: "/posts" },
         { icon: "mdi-lock-open", title: "Sign In", link: "/signin" },
         { icon: "mdi-pencil", title: "Sign Up", link: "/signup" }
       ];
+      if (this.user) {
+        items = [{ icon: "mdi-message-text", title: "Posts", link: "/posts" }];
+      }
+      return items;
     },
     sideNavItems() {
-      return [
+      let items = [
         { icon: "mdi-message-text", title: "Posts", link: "/posts" },
         { icon: "mdi-lock-open", title: "Sign In", link: "/signin" },
         { icon: "mdi-pencil", title: "Sign Up", link: "/signup" }
       ];
+      if (this.user) {
+        items = [
+          { icon: "mdi-message-text", title: "Posts", link: "/posts" },
+          { icon: "mdi-star-circle", title: "Create Post", link: "/post/add" },
+          { icon: "mdi-account", title: "Profile", link: "/profile" }
+        ];
+      }
+      return items;
     }
   },
   methods: {
