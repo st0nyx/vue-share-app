@@ -1,5 +1,5 @@
 <template>
-  <v-card color="#e5e5e5" width="500" class="mx-auto">
+  <v-card color="secondary" dark width="500" class="mx-auto mt-15">
     <v-card-title>
       <h1 class="display-1">Sign In</h1>
     </v-card-title>
@@ -24,7 +24,7 @@
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
-      <v-btn @click="handleSigninUser" color="success">Sign In</v-btn>
+      <v-btn @click="handleSigninUser" block color="primary">Sign In</v-btn>
       <!--      <v-spacer></v-spacer>-->
       <!--      <v-btn color="info">Login</v-btn>-->
     </v-card-actions>
