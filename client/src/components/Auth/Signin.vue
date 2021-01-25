@@ -1,25 +1,29 @@
 <template>
-  <v-card color="secondary" dark width="500" class="mx-auto mt-15">
-    <v-card-title>
-      <h1 class="display-1">Sign In</h1>
-    </v-card-title>
+  <v-form ref="form" v-model="isFormValid" lazy-validation>
+    <v-card color="secondary" dark width="500" class="mx-auto mt-15">
+      <v-card-title>
+        <h1 class="display-1">Sign In</h1>
+      </v-card-title>
 
-    <!--    Error Alert-->
-    <v-layout v-if="error" row wrap>
-      <v-flex xs12 sm6 offset-sm3>
-        <form-alert :message="error.message"></form-alert>
-      </v-flex>
-    </v-layout>
+      <!--    Error Alert-->
+      <v-layout v-if="error" row wrap>
+        <v-flex xs12 sm6 offset-sm3>
+          <form-alert :message="error.message"></form-alert>
+        </v-flex>
+      </v-layout>
 
-    <v-card-text>
-      <v-form>
+      <v-card-text>
+        <!--        <v-form>-->
         <v-text-field
+          :rules="usernameRules"
           label="Username"
           v-model="username"
           counter="20"
           prepend-icon="mdi-account-circle"
+          required
         />
         <v-text-field
+          :rules="passwordRules"
           :type="showPassword ? 'text' : 'password'"
           label="Password"
           v-model="password"
@@ -27,22 +31,30 @@
           prepend-icon="mdi-lock"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="showPassword = !showPassword"
+          required
         />
-      </v-form>
-    </v-card-text>
-    <v-divider></v-divider>
-    <v-card-actions>
-      <v-btn :loading="loading" @click="handleSigninUser" block color="primary">
-        <span slot="loader" class="custom-loader">
-          <v-icon light>mdi-cloud-upload</v-icon>
-        </span>
+        <!--        </v-form>-->
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-btn
+          :disabled="!isFormValid"
+          :loading="loading"
+          @click="handleSigninUser"
+          block
+          color="primary"
+        >
+          <span slot="loader" class="custom-loader">
+            <v-icon light>mdi-cloud-upload</v-icon>
+          </span>
 
-        Sign In</v-btn
-      >
-      <!--      <v-spacer></v-spacer>-->
-      <!--      <v-btn color="info">Login</v-btn>-->
-    </v-card-actions>
-  </v-card>
+          Sign In</v-btn
+        >
+        <!--      <v-spacer></v-spacer>-->
+        <!--      <v-btn color="info">Login</v-btn>-->
+      </v-card-actions>
+    </v-card>
+  </v-form>
 </template>
 
 <script>
@@ -51,9 +63,21 @@ export default {
   name: "Signin",
   data() {
     return {
+      isFormValid: true,
       username: "",
       password: "",
-      showPassword: false
+      showPassword: false,
+      usernameRules: [
+        // Check if username in input
+        username => !!username || "Username is required",
+        // Make sure not less than 5 chars
+        username =>
+          username.length <= 10 || "Username must be at least 10 Chars"
+      ],
+      passwordRules: [
+        password => !!password || "Password is required",
+        password => password.length >= 7 || "Password must be at least 7 Chars"
+      ]
     };
   },
   computed: {
@@ -69,10 +93,11 @@ export default {
   },
   methods: {
     handleSigninUser() {
-      this.$store.dispatch("signinUser", {
-        username: this.username,
-        password: this.password
-      });
+      if (this.$refs.form.validate())
+        this.$store.dispatch("signinUser", {
+          username: this.username,
+          password: this.password
+        });
     }
   }
 };
