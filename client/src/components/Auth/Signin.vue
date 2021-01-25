@@ -32,7 +32,13 @@
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
-      <v-btn @click="handleSigninUser" block color="primary">Sign In</v-btn>
+      <v-btn :loading="loading" @click="handleSigninUser" block color="primary">
+        <span slot="loader" class="custom-loader">
+          <v-icon light>mdi-cloud-upload</v-icon>
+        </span>
+
+        Sign In</v-btn
+      >
       <!--      <v-spacer></v-spacer>-->
       <!--      <v-btn color="info">Login</v-btn>-->
     </v-card-actions>
@@ -51,7 +57,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user", "error"])
+    ...mapGetters(["loading", "user", "error"])
   },
   watch: {
     user(value) {
@@ -72,4 +78,41 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.custom-loader {
+  animation: loader 1s infinite;
+  display: flex;
+}
+@-moz-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+</style>

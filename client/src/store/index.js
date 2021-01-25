@@ -66,6 +66,7 @@ export default new Vuex.Store({
     // eslint-disable-next-line no-unused-vars
     signinUser: ({ commit }, payload) => {
       commit("clearError");
+      commit("setLoading", true);
       // clear token to prevent errors
       localStorage.setItem("token", "");
       apolloClient
@@ -74,11 +75,13 @@ export default new Vuex.Store({
           variables: payload
         })
         .then(({ data }) => {
+          commit("setLoading", false);
           localStorage.setItem("token", data.signinUser.token);
           // to make sure created method is run in main.js (getCurrentUser)
           router.go();
         })
         .catch(err => {
+          commit("setLoading", false);
           commit("setError", err);
           console.error(err);
         });
