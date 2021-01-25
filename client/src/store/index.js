@@ -60,6 +60,8 @@ export default new Vuex.Store({
     },
     // eslint-disable-next-line no-unused-vars
     signinUser: ({ commit }, payload) => {
+      // clear token to prevent errors
+      localStorage.setItem("token", "");
       apolloClient
         .mutate({
           mutation: SIGNIN_USER,

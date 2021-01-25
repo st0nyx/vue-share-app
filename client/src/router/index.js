@@ -6,6 +6,7 @@ import Posts from "@/components/Posts/Posts";
 import Profile from "@/components/Auth/Profile";
 import Signin from "@/components/Auth/Signin";
 import Signup from "@/components/Auth/Signup";
+import store from "@/store/index"
 
 Vue.use(VueRouter);
 
@@ -28,7 +29,8 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
-    component: Profile
+    component: Profile,
+    meta: { requiresAuth: true }
   },
   {
     path: "/signin",
@@ -46,6 +48,15 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  const loggedIn = store.getters.user
+
+  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
+    next("/");
+  }
+  next();
 });
 
 export default router;
