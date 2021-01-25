@@ -3,6 +3,14 @@
     <v-card-title>
       <h1 class="display-1">Sign In</h1>
     </v-card-title>
+
+    <!--    Error Alert-->
+    <v-layout v-if="error" row wrap>
+      <v-flex xs12 sm6 offset-sm3>
+        <form-alert :message="error.message"></form-alert>
+      </v-flex>
+    </v-layout>
+
     <v-card-text>
       <v-form>
         <v-text-field
@@ -43,7 +51,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["user", "error"])
   },
   watch: {
     user(value) {
