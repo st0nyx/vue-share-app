@@ -3,7 +3,12 @@ import Vuex from "vuex";
 import router from "@/router";
 // import { gql } from "apollo-boost";
 import { defaultClient as apolloClient } from "@/main";
-import { GET_CURRENT_USER, GET_POSTS, SIGNIN_USER } from "@/queries";
+import {
+  GET_CURRENT_USER,
+  GET_POSTS,
+  SIGNIN_USER,
+  SIGNUP_USER
+} from "@/queries";
 
 Vue.use(Vuex);
 
@@ -71,8 +76,8 @@ export default new Vuex.Store({
     signinUser: ({ commit }, payload) => {
       commit("clearError");
       commit("setLoading", true);
-      // clear token to prevent errors
-      localStorage.setItem("token", "");
+      // // clear token to prevent errors
+      // localStorage.setItem("token", "");
       apolloClient
         .mutate({
           mutation: SIGNIN_USER,
@@ -90,6 +95,30 @@ export default new Vuex.Store({
           console.error(err);
         });
     },
+
+    signupUser: ({ commit }, payload) => {
+      commit("clearError");
+      commit("setLoading", true);
+      // // clear token to prevent errors
+      // localStorage.setItem("token", "");
+      apolloClient
+        .mutate({
+          mutation: SIGNUP_USER,
+          variables: payload
+        })
+        .then(({ data }) => {
+          commit("setLoading", false);
+          localStorage.setItem("token", data.signupUser.token);
+          // to make sure created method is run in main.js (getCurrentUser)
+          router.go();
+        })
+        .catch(err => {
+          commit("setLoading", false);
+          commit("setError", err);
+          console.error(err);
+        });
+    },
+
     signoutUser: async ({ commit }) => {
       // clear user in state
       commit("clearUser");

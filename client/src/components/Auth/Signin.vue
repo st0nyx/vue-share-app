@@ -43,7 +43,7 @@
       <v-card-actions>
         <v-btn
           :loading="loading"
-          :disabled="!isFormValid"
+          :disabled="!isFormValid || loading"
           color="primary"
           block
           type="submit"
