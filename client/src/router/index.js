@@ -6,7 +6,7 @@ import Posts from "@/components/Posts/Posts";
 import Profile from "@/components/Auth/Profile";
 import Signin from "@/components/Auth/Signin";
 import Signup from "@/components/Auth/Signup";
-import store from "@/store/index"
+import store from "@/store/index";
 
 Vue.use(VueRouter);
 
@@ -24,7 +24,8 @@ const routes = [
   {
     path: "/post/add",
     name: "AddPost",
-    component: AddPost
+    component: AddPost,
+    meta: { requiresAuth: true }
   },
   {
     path: "/profile",
@@ -51,7 +52,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const loggedIn = store.getters.user
+  const loggedIn = store.getters.user;
 
   if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
     next("/");

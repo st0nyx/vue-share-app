@@ -4,6 +4,7 @@ import router from "@/router";
 // import { gql } from "apollo-boost";
 import { defaultClient as apolloClient } from "@/main";
 import {
+  ADD_POST,
   GET_CURRENT_USER,
   GET_POSTS,
   SIGNIN_USER,
@@ -69,6 +70,20 @@ export default new Vuex.Store({
         })
         .catch(err => {
           commit("setLoading", false);
+          console.error(err);
+        });
+    },
+    // eslint-disable-next-line no-unused-vars
+    addPost: ({ commit }, payload) => {
+      apolloClient
+        .mutate({
+          mutation: ADD_POST,
+          variables: payload
+        })
+        .then(({ data }) => {
+          console.log(data.addPost);
+        })
+        .catch(err => {
           console.error(err);
         });
     },
