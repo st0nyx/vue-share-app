@@ -1,17 +1,21 @@
 <template>
-  <v-form ref="form" v-model="isFormValid" lazy-validation>
-    <v-card color="secondary" dark width="500" class="mx-auto mt-15">
-      <v-card-title>
-        <h1 class="display-1">Sign In</h1>
-      </v-card-title>
+  <v-card color="secondary" dark width="500" class="mx-auto mt-15">
+    <v-card-title>
+      <h1 class="display-1">Sign In</h1>
+    </v-card-title>
 
-      <!--    Error Alert-->
-      <v-layout v-if="error" row wrap>
-        <v-flex xs12 sm6 offset-sm3>
-          <form-alert :message="error.message"></form-alert>
-        </v-flex>
-      </v-layout>
-
+    <!--    Error Alert-->
+    <v-layout v-if="error" row wrap>
+      <v-flex xs12 sm6 offset-sm3>
+        <form-alert :message="error.message"></form-alert>
+      </v-flex>
+    </v-layout>
+    <v-form
+      ref="form"
+      v-model="isFormValid"
+      lazy-validation
+      @submit.prevent="handleSigninUser"
+    >
       <v-card-text>
         <!--        <v-form>-->
         <v-text-field
@@ -38,23 +42,20 @@
       <v-divider></v-divider>
       <v-card-actions>
         <v-btn
-          :disabled="!isFormValid"
           :loading="loading"
-          @click="handleSigninUser"
-          block
+          :disabled="!isFormValid"
           color="primary"
+          block
+          type="submit"
         >
           <span slot="loader" class="custom-loader">
-            <v-icon light>mdi-cloud-upload</v-icon>
+            <v-icon light>mdi-cached</v-icon>
           </span>
-
-          Sign In</v-btn
+          Signin</v-btn
         >
-        <!--      <v-spacer></v-spacer>-->
-        <!--      <v-btn color="info">Login</v-btn>-->
       </v-card-actions>
-    </v-card>
-  </v-form>
+    </v-form>
+  </v-card>
 </template>
 
 <script>
