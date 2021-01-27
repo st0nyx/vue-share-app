@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../components/Home.vue";
 import AddPost from "@/components/Posts/AddPost";
 import Posts from "@/components/Posts/Posts";
+import Post from "@/components/Posts/Post";
 import Profile from "@/components/Auth/Profile";
 import Signin from "@/components/Auth/Signin";
 import Signup from "@/components/Auth/Signup";
@@ -21,6 +22,13 @@ const routes = [
     name: "Posts",
     component: Posts
   },
+  {
+    path: "/posts/:postId",
+    name: "Post",
+    component: Post,
+    props: true
+  },
+
   {
     path: "/post/add",
     name: "AddPost",
