@@ -44,7 +44,15 @@
         <v-select
           :rules="categoriesRules"
           v-model="categories"
-          :items="['Art', 'Education', 'Travel', 'Photography', 'Technology']"
+          :items="[
+            'Art',
+            'Education',
+            'Food',
+            'Furniture',
+            'Travel',
+            'Photography',
+            'Technology'
+          ]"
           multiple
           label="Categories"
           prepend-icon="mdi-shape"
