@@ -1,0 +1,76 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type LikesFaves {
+    favorites: [Post]
+    likes: Int
+}
+
+type Message {
+    _id: ID
+    messageBody: String!
+    messageDate: String
+    messageUser: User!
+}
+
+type Mutation {
+    addPost(categories: [String]!, creatorId: ID!, description: String!, imageUrl: String!, title: String!): Post!
+    addPostMessage(messageBody: String!, postId: ID!, userId: ID!): Message!
+    likePost(postId: ID!, username: String!): LikesFaves!
+    signinUser(password: String!, username: String!): Token
+    signupUser(email: String!, password: String!, username: String!): Token
+    unlikePost(postId: ID!, username: String!): LikesFaves!
+}
+
+type Post {
+    _id: ID
+    categories: [String]!
+    createdBy: User!
+    createdDate: Date
+    description: String!
+    imageUrl: String!
+    likes: Int
+    messages: [Message]
+    title: String!
+}
+
+type PostsPage {
+    hasMore: Boolean
+    posts: [Post]
+}
+
+type Query {
+    getCurrentUser: User
+    getPost(postId: ID!): Post
+    getPosts: [Post]
+    infiniteScrollPosts(pageNum: Int!, pageSize: Int!): PostsPage
+}
+
+type Token {
+    token: String!
+}
+
+type User {
+    _id: ID
+    avatar: String
+    email: String!
+    favorites: [Post]
+    joinDate: Date
+    password: String!
+    username: String!
+}
+
+enum CacheControlScope {
+    PRIVATE
+    PUBLIC
+}
+
+
+scalar Date
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload
