@@ -1,6 +1,6 @@
 import { gql } from "apollo-boost";
 
-// Posts Queries
+/* Posts Queries */
 export const GET_POSTS = gql`
   query {
     getPosts {
@@ -10,14 +10,15 @@ export const GET_POSTS = gql`
     }
   }
 `;
+
 export const GET_POST = gql`
   query($postId: ID!) {
     getPost(postId: $postId) {
       _id
       title
-      description
       imageUrl
       categories
+      description
       likes
       createdDate
       messages {
@@ -34,7 +35,19 @@ export const GET_POST = gql`
   }
 `;
 
-// User Queries
+export const SEARCH_POSTS = gql`
+  query($searchTerm: String) {
+    searchPosts(searchTerm: $searchTerm) {
+      _id
+      title
+      description
+      imageUrl
+      likes
+    }
+  }
+`;
+
+/* User Queries */
 export const GET_CURRENT_USER = gql`
   query {
     getCurrentUser {
@@ -148,7 +161,7 @@ export const UNLIKE_POST = gql`
   }
 `;
 
-// User Mutations
+/* User Mutations */
 export const SIGNIN_USER = gql`
   mutation($username: String!, $password: String!) {
     signinUser(username: $username, password: $password) {

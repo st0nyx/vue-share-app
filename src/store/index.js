@@ -8,7 +8,8 @@ import {
   GET_CURRENT_USER,
   GET_POSTS,
   SIGNIN_USER,
-  SIGNUP_USER
+  SIGNUP_USER,
+  SEARCH_POSTS
 } from "@/queries";
 
 Vue.use(Vuex);
@@ -72,6 +73,18 @@ export default new Vuex.Store({
           commit("setLoading", false);
           console.error(err);
         });
+    },
+    // eslint-disable-next-line no-unused-vars
+    searchPosts: ({ commit }, payload) => {
+      apolloClient
+        .query({
+          query: SEARCH_POSTS,
+          variables: payload
+        })
+        .then(({ data }) => {
+          console.log(data.searchPosts);
+        })
+        .catch(err => console.error(err));
     },
     // eslint-disable-next-line no-unused-vars
     addPost: ({ commit }, payload) => {
