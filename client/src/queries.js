@@ -16,6 +16,7 @@ export const GET_POST = gql`
       _id
       title
       description
+      imageUrl
       categories
       likes
       createdDate
