@@ -5,9 +5,9 @@
         <v-card hover>
           <v-card-title>
             <h1>{{ getPost.title }}</h1>
-            <v-btn @click="handleToggleLike" large icon v-if="user">
+            <v-btn @click="handleToggleLike" medium icon v-if="user">
               <v-icon
-                large
+                medium
                 :color="checkIfPostLiked(getPost._id) ? 'red' : 'grey'"
                 >mdi-heart</v-icon
               >
@@ -15,7 +15,7 @@
 
             <h3 class="ml-3 font-weight-thin">{{ getPost.likes }} LIKES</h3>
             <v-spacer></v-spacer>
-            <v-icon @click="goToPreviousPage" color="info" large
+            <v-icon @click="goToPreviousPage" color="info" medium
               >mdi-arrow-left</v-icon
             >
           </v-card-title>
@@ -62,6 +62,7 @@
                   :rules="messageRules"
                   v-model="messageBody"
                   clearable
+                  counter="50"
                   :append-outer-icon="messageBody && 'mdi-send'"
                   label="Add Message"
                   type="text"
