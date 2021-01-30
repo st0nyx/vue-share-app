@@ -78,7 +78,15 @@
       <v-layout row wrap>
         <v-flex xs12 sm6 v-for="post in userPosts" :key="post._id">
           <v-card class="mt-3 ml-1 mr-2" hover>
-            <v-btn color="info" floating class="mt-1 mb-1 ml-4" fab small dark>
+            <v-btn
+              @click="editPostDialog = true"
+              color="info"
+              floating
+              class="mt-1 mb-1 ml-4"
+              fab
+              small
+              dark
+            >
               <v-icon> mdi-pencil</v-icon>
             </v-btn>
             <v-btn color="error" class="mt-1 mb-1 ml-2" floating fab small dark>
@@ -91,6 +99,80 @@
         </v-flex>
       </v-layout>
     </v-container>
+
+    <v-dialog xs12 sm6 offset-sm3 persistent v-model="editPostDialog">
+      <v-card>
+        <v-card-title class="headline grey lighten-2">Update Post</v-card-title>
+        <v-form
+          ref="form"
+          v-model="isFormValid"
+          lazy-validation
+          @submit.prevent="handleUpdateUserPost"
+        >
+          <v-card-text>
+            <!--        <v-form>-->
+            <v-text-field
+              :rules="titleRules"
+              label="PostTitle"
+              v-model="title"
+              counter="20"
+              prepend-icon="mdi-format-title"
+              required
+            />
+            <v-text-field
+              :rules="imageRules"
+              label="Image URL"
+              v-model="imageUrl"
+              counter="20"
+              prepend-icon="mdi-web"
+              required
+            />
+            <!-- Image Preview -->
+            <v-layout v-if="imageUrl" row>
+              <v-flex xs12>
+                <img :src="imageUrl" height="300px" />
+              </v-flex>
+            </v-layout>
+
+            <v-select
+              :rules="categoriesRules"
+              v-model="categories"
+              :items="[
+                'Art',
+                'Education',
+                'Food',
+                'Furniture',
+                'Travel',
+                'Photography',
+                'Technology'
+              ]"
+              multiple
+              label="Categories"
+              prepend-icon="mdi-shape"
+              required
+            ></v-select>
+            <v-textarea
+              :rules="descRules"
+              label="Description"
+              v-model="description"
+              counter="200"
+              prepend-icon="mdi-details"
+              required
+            />
+            <!--        </v-form>-->
+          </v-card-text>
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn type="submit" class="success--text" flat>Update</v-btn>
+            <v-btn class="error--text" flat @click="editPostDialog = false"
+              >Cancel</v-btn
+            >
+          </v-card-actions>
+        </v-form>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -102,7 +184,27 @@ export default {
   name: "Profile",
   data() {
     return {
-      format
+      format,
+      editPostDialog: false,
+      isFormValid: true,
+      title: "",
+      imageUrl: "",
+      categories: [],
+      description: "",
+      titleRules: [
+        title => !!title || "Title is required",
+        title => title.length < 20 || "Title must have less than 20 characters"
+      ],
+      imageRules: [image => !!image || "Image is required"],
+      categoriesRules: [
+        categories =>
+          categories.length >= 1 || "At least one category is required"
+      ],
+      descRules: [
+        desc => !!desc || "Description is required",
+        desc =>
+          desc.length < 200 || "Description must have less than 200 characters"
+      ]
     };
   },
   computed: {
@@ -116,7 +218,8 @@ export default {
       this.$store.dispatch("getUserPosts", {
         userId: this.user._id
       });
-    }
+    },
+    handleUpdateUserPost() {}
   }
 };
 </script>
