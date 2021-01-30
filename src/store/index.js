@@ -8,6 +8,7 @@ import {
   GET_CURRENT_USER,
   GET_POSTS,
   GET_USER_POSTS,
+  UPDATE_USER_POST,
   SIGNIN_USER,
   SIGNUP_USER,
   SEARCH_POSTS
@@ -146,6 +147,29 @@ export default new Vuex.Store({
           console.error(err);
         });
     },
+
+    updateUserPost: ({ state, commit }, payload) => {
+      apolloClient
+        .mutate({
+          mutation: UPDATE_USER_POST,
+          variables: payload
+        })
+        .then(({ data }) => {
+          const index = state.userPosts.findIndex(
+            post => post._id === data.updateUserPost._id
+          );
+          const userPosts = [
+            ...state.userPosts.slice(0, index),
+            data.updateUserPost,
+            ...state.userPosts.slice(index + 1)
+          ];
+          commit("setUserPosts", userPosts);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    },
+
     // eslint-disable-next-line no-unused-vars
     signinUser: ({ commit }, payload) => {
       commit("clearError");
