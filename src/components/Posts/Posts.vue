@@ -49,7 +49,7 @@
                     post.createdBy.username
                   }}</v-list-item-title>
                   <v-list-item-subtitle class="font-weight-thin">
-                    Added {{ post.createdDate }}
+                    added: {{format(new Date(post.createdDate), 'dd. MMM. yyyy hh:mm')}}
                   </v-list-item-subtitle>
                 </v-list-item-content>
 
@@ -77,13 +77,15 @@
 
 <script>
 import { INFINITE_SCROLL_POSTS } from "@/queries";
-
+import { format, formatDistance } from "date-fns"
 const pageSize = 2;
 
 export default {
   name: "Posts",
   data() {
     return {
+      format,
+      formatDistance,
       pageNum: 1,
       showMoreEnabled: true,
       showPostCreator: false

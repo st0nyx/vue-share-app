@@ -1,13 +1,74 @@
 <template>
-  <v-container>
-    <h1>Profile</h1>
+  <v-container class="text-xs-center">
+    <!-- User Details Card -->
+    <v-flex sm6 offset-sm3>
+      <v-card class="white--text" color="secondary">
+        <v-layout>
+          <v-flex xs5>
+            <v-img
+              class="mt-3"
+              height="125px"
+              contain
+              :src="user.avatar"
+            ></v-img>
+          </v-flex>
+          <v-flex xs7>
+            <v-card-title primary-title>
+              <div>
+                <div class="headline">{{ user.username }}</div>
+                <small>Joined: {{format(new Date(user.joinDate), 'dd. MMM. yyyy')}}</small>
+                <div class="hidden-xs-only font-weight-thin">
+                  {{ user.favorites.length }} Favorites
+                </div>
+                <div class="hidden-xs-only font-weight-thin">2 Posts Added</div>
+              </div>
+            </v-card-title>
+          </v-flex>
+        </v-layout>
+      </v-card>
+    </v-flex>
+
+    <!-- Posts Favorited by User -->
+    <v-container v-if="!userFavorites.length">
+      <v-layout row wrap>
+        <v-flex xs12>
+          <h2>You have no favorites currently. Go and add some!</h2>
+        </v-flex>
+      </v-layout>
+    </v-container>
+
+    <v-container class="mt-3" v-else>
+      <v-flex xs12>
+        <h2 class="font-weight-light">
+          Favorited
+          <span class="font-weight-regular">{{ userFavorites.length }}</span>
+        </h2>
+      </v-flex>
+      <v-layout row wrap>
+        <v-flex xs12 sm6 v-for="favorite in userFavorites" :key="favorite._id">
+          <v-card class="mt-3 ml-1 mr-2" hover>
+            <v-img height="30vh" :src="favorite.imageUrl"></v-img>
+            <v-card-text>{{ favorite.title }}</v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </v-container>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import { format } from "date-fns";
+
 export default {
-  name: "Profile"
+  name: "Profile",
+  data() {
+    return {
+      format
+    }
+  },
+  computed: {
+    ...mapGetters(["user", "userFavorites"])
+  }
 };
 </script>
-
-<style scoped></style>

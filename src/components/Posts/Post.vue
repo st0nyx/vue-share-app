@@ -94,9 +94,16 @@
                   <v-list-item-subtitle>
                     {{ message.messageUser.username }}
                   </v-list-item-subtitle>
-                  <span class="grey--text text--lighten-1 hidden-xs-only">{{
-                    message.messageDate
-                  }}</span>
+                  <span class="grey--text text--lighten-1 hidden-xs-only"
+                    >{{
+                      formatDistance(
+                        new Date(message.messageDate),
+                        new Date(Date.now()),
+                        "dd. MMM. YYYY"
+                      )
+                    }}
+                    ago</span
+                  >
                 </v-list-item-content>
 
                 <v-list-item-action class="hidden-xs-only">
@@ -117,12 +124,15 @@
 <script>
 import { GET_POST, ADD_POST_MESSAGE, LIKE_POST, UNLIKE_POST } from "@/queries";
 import { mapGetters } from "vuex";
+import { format, formatDistance } from "date-fns";
 
 export default {
   name: "Post",
   props: ["postId"],
   data() {
     return {
+      format,
+      formatDistance,
       postLiked: false,
       dialog: false,
       messageBody: "",
