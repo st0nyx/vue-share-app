@@ -49,7 +49,10 @@
                     post.createdBy.username
                   }}</v-list-item-title>
                   <v-list-item-subtitle class="font-weight-thin">
-                    added: {{format(new Date(post.createdDate), 'dd. MMM. yyyy hh:mm')}}
+                    added:
+                    {{
+                      format(new Date(post.createdDate), "dd. MMM. yyyy hh:mm")
+                    }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
 
@@ -77,7 +80,7 @@
 
 <script>
 import { INFINITE_SCROLL_POSTS } from "@/queries";
-import { format, formatDistance } from "date-fns"
+import { format, formatDistance } from "date-fns";
 const pageSize = 2;
 
 export default {
@@ -87,7 +90,7 @@ export default {
       format,
       formatDistance,
       pageNum: 1,
-      showMoreEnabled: true,
+      // showMoreEnabled: true,
       showPostCreator: false
     };
   },
@@ -98,6 +101,11 @@ export default {
         pageNum: 1,
         pageSize
       }
+    }
+  },
+  computed: {
+    showMoreEnabled() {
+      return this.infiniteScrollPosts && this.infiniteScrollPosts.hasMore;
     }
   },
   methods: {
@@ -111,7 +119,7 @@ export default {
         updateQuery: (prevResult, { fetchMoreResult }) => {
           const newPosts = fetchMoreResult.infiniteScrollPosts.posts;
           const hasMore = fetchMoreResult.infiniteScrollPosts.hasMore;
-          this.showMoreEnabled = hasMore;
+          // this.showMoreEnabled = hasMore;
 
           return {
             infiniteScrollPosts: {
