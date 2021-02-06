@@ -78,11 +78,27 @@
       <v-layout row wrap>
         <v-flex xs12 sm6 v-for="post in userPosts" :key="post._id">
           <v-card class="mt-3 ml-1 mr-2" hover>
-            <v-btn class="myicon" @click="loadPost(post)" color="info" floating fab small dark>
+            <v-btn
+              class="myicon"
+              @click="loadPost(post)"
+              color="info"
+              floating
+              fab
+              small
+              dark
+            >
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
 
-            <v-btn color="error" class="mt-1 mb-1 ml-2" floating fab small dark>
+            <v-btn
+              @click="handleDeleteUserPost(post)"
+              color="error"
+              class="mt-1 mb-1 ml-2"
+              floating
+              fab
+              small
+              dark
+            >
               <v-icon>mdi-delete</v-icon>
             </v-btn>
 
@@ -223,6 +239,17 @@ export default {
           description: this.description
         });
         this.editPostDialog = false;
+      }
+    },
+    handleDeleteUserPost(post) {
+      this.loadPost(post, false);
+      const deletePost = window.confirm(
+        "Are you sure you want to delete this post?"
+      );
+      if (deletePost) {
+        this.$store.dispatch("deleteUserPost", {
+          postId: this.postId
+        });
       }
     },
     loadPost(
